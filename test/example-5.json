@@ -1,0 +1,46 @@
+{
+    "meta": {
+        "timestamp": "07/03/16−06:16:12",
+        "msgid": "0035−028529",
+        "page": "1"
+    },
+    "header": {
+        "basic": {
+            "output": "3333 1111111111111111111111111",
+            "input": "4444 22222222222222222222222"
+        },
+        "application": {
+            "output": "Single Customer Credt Transfer",
+            "sender": "AAAAAAAAAA\nNAME OF BANK\nCITY COUNTRY",
+            "extra": "Server to Receiver Instructions : 3333333333333333333333\nFIN Copy Service : DLP"
+        },
+        "user": {
+            "FIN": "{103:DLP}\n{115:55555555555555555}"
+        }
+    },
+    "block": {
+        "text": {
+            "20": "66666666666666",
+            "59": "/IBAN2\nNAME2",
+            "70": "70: Remittance Information\nTRANSFER TO PARTNERS ACCOUNT\n71A: Details of Charges\nSHA\n72: Sender to Receiver Information\n/REC/TRNSF/\n//BKB/FFAILBBEXXX/MRT/LFP1/\n//LOM/201/PRI/99/\n//ODT/20160304",
+            "23B": "CRED",
+            "32A": {
+                "date": "07 March 2016",
+                "cur": "USD (US DOLLAR)",
+                "amount": "100000000,00"
+            },
+            "33B": false,
+            "50F": false,
+            "50K": "/IBAN1\nNAME1\nADDRESS11\nADDRESS12",
+            "52A": false,
+            "52D": false,
+            "53A": "BDLCLBBXXXX\nBANQUE DU LIBAN\nBEIRUT LB",
+            "54A": false,
+            "57A": "FFAILBBEXXX\nFFA PRIVATE BANK S.A.L.\nBEIRUT LB",
+            "57D": false,
+            "59A": false,
+            "59F": false
+        },
+        "trailer": "{CHK:7777777777}\n{DLM:}\nPKI Signature: MAC−Equivalent"
+    }
+}

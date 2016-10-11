@@ -1,0 +1,101 @@
+{{meta.timestamp}}
+FFAILBBEMsgs−{{meta.msgid}}
+{{meta.page}}
+____________________________________________________________________
+−−−−−−−−−−−−−−−−−−−−− Instance Type and Transmission −−−−−−−−−−−−−−
+Copy received from SWIFT
+Priority
+: Normal
+Message Output Reference : {{header.basic.output}}
+Correspondent Input Reference : {{header.basic.input}}
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Header −−−−−−−−−−−−−−−−−−−−−−−−−
+Swift Output : FIN 103 {{header.application.output}}
+Sender
+: {{header.application.sender}}
+Receiver : FFAILBBEXXX
+FFA PRIVATE BANK S.A.L.
+BEIRUT LB
+{{#header.application.extra}}{{.}}{{/header.application.extra}}
+−−−−−−−−−−−−−−−−−−−−−−−−−−− FIN User Header −−−−−−−−−−−−−−−−−−−−−−−−
+{{header.user.FIN}}
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Text −−−−−−−−−−−−−−−−−−−−−−−−−−−
+20: Sender’s Reference
+{{block.text.20}}
+23B: Bank Operation Code
+{{block.text.23B}}
+32A: Val Dte/Curr/Interbnk Settld Amt
+Date
+: {{block.text.32A.date}}
+Currency
+: {{block.text.32A.cur}}
+Amount
+:
+#{{block.text.32A.amount}}#
+>>>>>> 32A
+{{#block.text.33B}}
+33B: Currency/Instructed Amount
+Currency
+: {{cur}}
+Amount
+:
+#{{amount}}#
+>>>>>> 33B
+{{/block.text.33B}}
+{{#block.text.50K}}
+50K: Ordering Customer−Name & Address
+{{.}}
+>>>>>> 50K
+{{/block.text.50K}}
+{{#block.text.50F}}
+50F: Ordering Customer − ID
+{{.}}
+>>>>>> 50F
+{{/block.text.50F}}
+{{#block.text.52A}}
+52A: Ordering Institution − FI BIC
+{{.}}
+>>>>>> 52A
+{{/block.text.52A}}
+{{#block.text.52D}}
+52D: Ordering Institution−Name & Addr
+{{.}}
+>>>>>> 52D
+{{/block.text.52D}}
+{{#block.text.53A}}
+53A: Sender’s Correspondent − FI BIC
+{{.}}
+>>>>>> 53A
+{{/block.text.53A}}
+{{#block.text.54A}}
+54A: Receiver’s Correspondent − FI BIC
+{{.}}
+>>>>>> 54A
+{{/block.text.54A}}
+{{#block.text.57A}}
+57A: Account With Institution − FI BIC
+{{.}}
+>>>>>> 57A
+{{/block.text.57A}}
+{{#block.text.57D}}
+57D: Account With Inst −Name & Addr
+{{.}}
+>>>>>> 57D
+{{/block.text.57D}}
+{{#block.text.59}}
+59: Beneficiary Customer−Name & Addr
+{{.}}
+>>>>>> 59
+{{/block.text.59}}
+{{#block.text.59A}}
+59A: Beneficiary Customer − BIC
+{{.}}
+>>>>>> 59A
+{{/block.text.59A}}
+{{#block.text.59F}}
+59F: Beneficiary Customer−Number/Name&Addr
+{{.}}
+>>>>>> 59F
+{{/block.text.59F}}
+{{block.text.70}}
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Trailer −−−−−−−−−−−−−−−−−−−−−−−−
+{{block.trailer}}

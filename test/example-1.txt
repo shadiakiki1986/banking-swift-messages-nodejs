@@ -1,0 +1,68 @@
+07/03/16−06:16:12
+FFAILBBEMsgs−0035−028529
+1
+____________________________________________________________________
+−−−−−−−−−−−−−−−−−−−−− Instance Type and Transmission −−−−−−−−−−−−−−
+Copy received from SWIFT
+Priority
+: Normal
+Message Output Reference : 3333 1111111111111111111111111
+Correspondent Input Reference : 4444 22222222222222222222222
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Header −−−−−−−−−−−−−−−−−−−−−−−−−
+Swift Output : FIN 103 Single Customer Credt Transfer
+Sender
+: AAAAAAAAAA
+NAME OF BANK
+CITY COUNTRY
+Receiver : FFAILBBEXXX
+FFA PRIVATE BANK S.A.L.
+BEIRUT LB
+Server to Receiver Instructions : 3333333333333333333333
+FIN Copy Service : DLP
+−−−−−−−−−−−−−−−−−−−−−−−−−−− FIN User Header −−−−−−−−−−−−−−−−−−−−−−−−
+{103:DLP}
+{115:55555555555555555}
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Text −−−−−−−−−−−−−−−−−−−−−−−−−−−
+20: Sender’s Reference
+66666666666666
+23B: Bank Operation Code
+CRED
+32A: Val Dte/Curr/Interbnk Settld Amt
+Date
+: 07 March 2016
+Currency
+: USD (US DOLLAR)
+Amount
+:
+#100000000,00#
+50K: Ordering Customer−Name & Address
+/IBAN1
+NAME1
+ADDRESS11
+ADDRESS12
+53A: Sender’s Correspondent − FI BIC
+BDLCLBBXXXX
+BANQUE DU LIBAN
+BEIRUT LB
+57A: Account With Institution − FI BIC
+FFAILBBEXXX
+FFA PRIVATE BANK S.A.L.
+BEIRUT LB
+59: Beneficiary Customer−Name & Addr
+/IBAN2
+NAME2
+ADDRESS21
+ADDRESS22
+70: Remittance Information
+TRANSFER TO PARTNERS ACCOUNT
+71A: Details of Charges
+SHA
+72: Sender to Receiver Information
+/REC/TRNSF/
+//BKB/FFAILBBEXXX/MRT/LFP1/
+//LOM/201/PRI/99/
+//ODT/20160304
+−−−−−−−−−−−−−−−−−−−−−−−−−−− Message Trailer −−−−−−−−−−−−−−−−−−−−−−−−
+{CHK:7777777777}
+{DLM:}
+PKI Signature: MAC−Equivalent
