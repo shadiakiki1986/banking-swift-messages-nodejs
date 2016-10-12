@@ -1,12 +1,19 @@
+sudo: required
+
+services:
+- docker
+
 language: node_js
 node_js:
 - "node"
 
 before_install:
 - npm install
+- docker run -d -p 27017:27017 mongo
 
 script:
 - grunt jshint
 - npm test
 
-sudo: false
+after_script:
+- docker ps|grep mongo|awk '{print "docker stop " $1}'|bash

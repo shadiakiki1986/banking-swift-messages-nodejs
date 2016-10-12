@@ -18,14 +18,16 @@ ATM this only does MT103 swift messages (incoming transfers).
 2. Run
 ```bash
 pdftotext selected_file.pdf > selected_file.txt
-swift2json selected_file.txt > selected_file.json
+# save result to file
+swift2json -f selected_file.txt > selected_file.json
+# save result to mongo
+swift2json -f selected_file.txt -m localhost
 ```
 
-# Development
-* Install dependencies: `[sudo] npm install`
-* Lint: `grunt jshint` or just `grunt`
-* Develop while watching edits: `grunt watch`
-* Run unit tests: `npm test`
+Notes on caching to mongo:
+* the key in the mongo db is the [basename](https://www.npmjs.com/package/basename) of the filename passed
+* currently only the default mongodb port 27017 is allowed
+* currently only the `banking-swift-messages` database name is allowed
 
 # Documentation
 '''Much of this documentation was reached through the documentation of [qoomon/banking-swift-messages-java](https://github.com/qoomon/banking-swift-messages-java), which is a parser for swift messages'''
@@ -40,3 +42,11 @@ For general reading, check [The Structure Of A SWIFT Message, Explained!](http:/
 and [SWIFT Message Types – Know Your MTs from your MXs...](http://www.sepaforcorporates.com/swift-for-corporates/swift-message-types-know-mts-mxs/).
 
 [Trade Samaritan](http://tradesamaritan.com/world-trade/products/mt103-single-customer-credit-transfer) and [Millenium BCP](http://ind.millenniumbcp.pt/pt/negocios/tesouraria/Documents/Manual_mt103.pdf) ([cached](docs/Manual_mt103.pdf)) explain the fields and procedure for this message well.
+
+# Development
+* Install dependencies: `[sudo] npm install`
+* Lint: `grunt jshint` or just `grunt`
+* Develop while watching edits: `grunt watch`
+* Run unit tests: `npm test`
+ * note that the proprietary files tests are skipped if not present
+ * to test against a mongo instance, run one with `docker run -it -p 27017:27017 mongo`

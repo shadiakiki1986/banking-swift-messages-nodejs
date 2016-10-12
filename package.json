@@ -7,7 +7,10 @@
     "swift2json": "./bin/swift2json"
   },
   "dependencies": {
+    "basename": "^0.1.2",
+    "co": "^4.6.0",
     "json-stable-stringify": "^1.0.1",
+    "mongodb": "^2.2.10",
     "reverse-mustache": "^1.6.2"
   },
   "devDependencies": {
