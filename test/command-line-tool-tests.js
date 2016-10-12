@@ -25,7 +25,7 @@ describe( "Command line tool", function() {
     mongoHandler.rm(inputFn).then(function() {
       mongoHandler.get(inputFn).then(function(doc) {
         expect(doc.length).to.equal(0);
-        cmd2 = cmd+" -m localhost";
+        var cmd2 = cmd+" -m localhost";
         execSync(cmd2);
 
         mongoHandler.get(inputFn).then(function(doc) {
@@ -41,8 +41,8 @@ describe( "Command line tool", function() {
   });
 
   it('exits with non-zero value on inexistant mongo hostname', function() {
-    cmd2 = cmd + " -m inexistant";
-    var fn = function() { execSync(cmd2); }
+    var cmd2 = cmd + " -m inexistant";
+    var fn = function() { execSync(cmd2); };
     // http://chaijs.com/api/bdd/#method_throw
     expect(fn).to.throw('MongoError: failed to connect to server');
   });
