@@ -111,9 +111,15 @@ describe( "Console app", function() {
 
 describe( "Proprietary files", function() {
   var folder = '/mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs';
-
+  // http://stackoverflow.com/a/32820119/4126114
   before(function() {
-    fs.statSync(folder); // fails if inexistant
+    try {
+      // http://stackoverflow.com/a/4482701/4126114
+      fs.accessSync(folder,fs.F_OK); // fails if inexistant
+    } catch(err) {
+      console.err("Error: "+err);
+      this.skip(); // inexistant folder?
+    }
   });
 
   it('Parsed without errors', function() {
