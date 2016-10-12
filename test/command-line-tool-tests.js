@@ -39,7 +39,9 @@ describe( "Command line tool", function() {
       }).catch(onerror);
     });
   });
+});
 
+describe("CLI exceptions", function() {
   it('exits with non-zero value on inexistant mongo hostname', function() {
     var cmd2 = cmd + " -m inexistant";
     var fn = function() { execSync(cmd2); };

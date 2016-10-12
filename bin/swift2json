@@ -27,30 +27,28 @@ function getCacheToMongo() {
 }
 
 //--------------------------
+var filename = getFilename();
+var mongoHost = getCacheToMongo();
+
 try {
-  var filename = getFilename();
-  var mongoHost = getCacheToMongo();
-
   var json = bankingSwiftMessages.parse(filename);
-
-  if(mongoHost) {
-    mongoHandler.setHost(mongoHost);
-    mongoHandler.upsert(filename,json).then(function() {
-      console.log("Saved to mongo the parsed json of "+filename);
-    }, function(err) {
-      console.error(err.stack);
-      process.exit(255); // 255 is selected for xargs http://stackoverflow.com/a/26485626/4126114
-    });
-    return;
-  }
-
-  // output sorted keys
-  // https://www.npmjs.com/package/json-stable-stringify
-  // THIS IS NOT SORTED: console.log(util.inspect(parsed,false,null));
-  console.log(stringify(json,{space:4}));
-
 } catch(err) {
     console.error(err); 
-    process.exit(1);
+    process.exit(1); // exit with 1, not 255, so that a non-MT103 file does not block the xargs call in the dockerfile
 }
 
+if(mongoHost) {
+  mongoHandler.setHost(mongoHost);
+  mongoHandler.upsert(filename,json).then(function() {
+    console.log("Saved to mongo the parsed json of "+filename);
+  }, function(err) {
+    console.error(err.stack);
+    process.exit(255); // 255 is selected for xargs in the dockerfile http://stackoverflow.com/a/26485626/4126114
+  });
+  return;
+}
+
+// output sorted keys
+// https://www.npmjs.com/package/json-stable-stringify
+// THIS IS NOT SORTED: console.log(util.inspect(parsed,false,null));
+console.log(stringify(json,{space:4}));
