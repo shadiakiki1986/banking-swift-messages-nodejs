@@ -24,9 +24,9 @@ var fixturesPreprocess = {
 describe("preprocess", function() {
   describe( "unit test", function() {
     it('adds to 32A', function() {
-      input =    "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n55: bla\nl9";
-      expected = "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n>>>>>> 32A\n55: bla\nl9";
-      actual = bsm.preprocess(input);
+      var input =    "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n55: bla\nl9";
+      var expected = "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n>>>>>> 32A\n55: bla\nl9";
+      var actual = bsm.preprocess(input);
       expect(actual).to.equal(expected);
     });
   });
@@ -34,8 +34,8 @@ describe("preprocess", function() {
   describe( "fixtures", function() {
     it('add tags', function() {
       for(var inputFn in fixturesPreprocess) {
-        input = bsm.readFile(path.join(__dirname,inputFn));
-        actual = bsm.preprocess(input);
+        var input = bsm.readFile(path.join(__dirname,inputFn));
+        var actual = bsm.preprocess(input);
 
         var expectedFn = path.join(__dirname,fixturesPreprocess[inputFn]);
         var expected = bsm.readFile(expectedFn);
@@ -57,8 +57,8 @@ describe( "Library", function() {
           // read json
           var inputFn = fixturesParse[expectedFn];
           inputFn = path.join(__dirname,inputFn);
-          input = JSON.parse(bsm.readFile(inputFn));
-          actual = mustache.render(template,input).trim();
+          var input = JSON.parse(bsm.readFile(inputFn));
+          var actual = mustache.render(template,input).trim();
 
           // drop >>>>>> and <<<<<< which I added
           actual = actual.replace(/>>>>>> \d{2}[A-Z]{0,1}\n/g,'');
@@ -83,7 +83,7 @@ describe( "Library", function() {
         var actual = bsm.parse(path.join(__dirname,actualFn));
 
         var expectedFn = fixturesParse[actualFn];
-        expected = path.join(__dirname,expectedFn);
+        var expected = path.join(__dirname,expectedFn);
         // fs.writeFileSync(expected,JSON.stringify(actual,null,4));
         expected = JSON.parse(bsm.readFile(expected));
 
@@ -166,7 +166,7 @@ describe( "Proprietary files", function() {
 
     var expected = path.join(__dirname,"example-1.json");
     expected = JSON.parse(bsm.readFile(expected));
-    expectedKeys = Object.keys(expected);
+    var expectedKeys = Object.keys(expected);
 
     fixturesProprietary.map(function(filename) {
         var actual = bsm.parse(path.join(folder,filename));
