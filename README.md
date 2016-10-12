@@ -70,3 +70,4 @@ and [SWIFT Message Types – Know Your MTs from your MXs...](http://www.sepaforc
 * Run unit tests: `npm test`
  * note that the proprietary files tests are skipped if not present
  * to test against a mongo instance, run one with `docker run -it -p 27017:27017 mongo`
+
