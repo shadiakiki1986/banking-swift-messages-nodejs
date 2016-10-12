@@ -4,11 +4,11 @@ var path = require('path');
 var execSync = require('child_process').execSync;
 var mongoHandler = require('../lib/mongo-handler.js');
 
-describe( "Command line tool", function() {
-  var inputFn = 'example-1.txt';
-  var inputPath = path.join(__dirname,"fixtures",inputFn);
-  var cmd = "node "+path.join(__dirname,"..","bin","swift2json")+" -f "+inputPath;
+var inputFn = 'example-1.txt';
+var inputPath = path.join(__dirname,"fixtures",inputFn);
+var cmd = "node "+path.join(__dirname,"..","bin","swift2json")+" -f "+inputPath;
 
+describe( "Command line tool", function() {
   it('parses to valid json', function() {
     var actual = execSync(cmd); // /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/15570035-20160307_082026.txt');
     actual = JSON.parse(actual);
@@ -25,8 +25,8 @@ describe( "Command line tool", function() {
     mongoHandler.rm(inputFn).then(function() {
       mongoHandler.get(inputFn).then(function(doc) {
         expect(doc.length).to.equal(0);
-        cmd += " -m localhost";
-        execSync(cmd);
+        cmd2 = cmd+" -m localhost";
+        execSync(cmd2);
 
         mongoHandler.get(inputFn).then(function(doc) {
           expect(doc.length).to.equal(1);
@@ -39,5 +39,13 @@ describe( "Command line tool", function() {
       }).catch(onerror);
     });
   });
+
+  it('exits with non-zero value on inexistant mongo hostname', function() {
+    cmd2 = cmd + " -m inexistant";
+    var fn = function() { execSync(cmd2); }
+    // http://chaijs.com/api/bdd/#method_throw
+    expect(fn).to.throw('MongoError: failed to connect to server');
+  });
+
 });
 

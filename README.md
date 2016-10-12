@@ -28,6 +28,7 @@ Notes on caching to mongo:
 * the key in the mongo db is the [basename](https://www.npmjs.com/package/basename) of the filename passed
 * currently only the default mongodb port 27017 is allowed
 * currently only the `banking-swift-messages` database name is allowed
+* in case of error in connection to the mongo hostname, `swift2json` exits with code `255`
 
 # Documentation
 '''Much of this documentation was reached through the documentation of [qoomon/banking-swift-messages-java](https://github.com/qoomon/banking-swift-messages-java), which is a parser for swift messages'''

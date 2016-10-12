@@ -31,3 +31,14 @@ describe( "Mongo handler", function() {
   });
 });
 
+describe('Exceptions', function() {
+  it('fails on inexistant mongo hostname', function(done) {
+    mongoHandler.setHost('inexistant');
+    mongoHandler.get('bla').then(function() {
+      done("Should have thrown an error");
+    }, function() {
+      done();
+    });
+  });
+});
+

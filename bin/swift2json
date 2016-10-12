@@ -35,8 +35,12 @@ try {
 
   if(mongoHost) {
     mongoHandler.setHost(mongoHost);
-    mongoHandler.upsert(filename,json);
-    console.log("Saved to mongo the parsed json of "+filename);
+    mongoHandler.upsert(filename,json).then(function() {
+      console.log("Saved to mongo the parsed json of "+filename);
+    }, function(err) {
+      console.error(err.stack);
+      process.exit(255); // 255 is selected for xargs http://stackoverflow.com/a/26485626/4126114
+    });
     return;
   }
 
