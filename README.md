@@ -1,6 +1,8 @@
 # banking-swift-messages-nodejs
 Nodejs library that parses fields from swift messages in txt format.
 
+[![Build Status](https://travis-ci.org/shadiakiki1986/banking-swift-messages-nodejs.svg?branch=master)](https://travis-ci.org/shadiakiki1986/banking-swift-messages-nodejs)
+
 The input to this parser is the output file of [pdftotext](https://packages.debian.org/sid/poppler-utils) with input `swift_message.pdf`
 
 where the pdf file is the one spit out by [Swift Alliance Lite 2](https://www.swift.com/our-solutions/interfaces-and-integration/alliance-lite2)
