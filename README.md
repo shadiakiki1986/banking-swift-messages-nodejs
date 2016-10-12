@@ -1,4 +1,4 @@
-# banking-swift-message-reverse-mustache
+# banking-swift-messages-nodejs
 Nodejs library that parses fields from swift messages in txt format.
 
 The input to this parser is the output file of [pdftotext](https://packages.debian.org/sid/poppler-utils) with input `swift_message.pdf`
@@ -7,8 +7,19 @@ where the pdf file is the one spit out by [Swift Alliance Lite 2](https://www.sw
 
 The output is a JSON structure with the swift message fields and their values
 
+ATM this only does MT103 swift messages (incoming transfers).
+
+# Installation
+1. Install Command-line-tool: `npm install -g banking-swift-messages`
+2. Install `pdftotext` with `[sudo] apt-get install poppler-utils`
+
 # Usage
-Install `pdftotext` with `[sudo] apt-get install poppler-utils`
+1. Go to your `Swift Alliance Lite 2` incoming messages folder: `Alliance\ Lite2/files/reception/IncomingMsgs`
+2. Run
+```bash
+pdftotext selected_file.pdf > selected_file.txt
+swift2json selected_file.txt > selected_file.json
+```
 
 # Development
 * Install dependencies: `[sudo] npm install`

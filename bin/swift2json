@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/15570035-20160307_082026.txt');
 
 var reverseMustache = require('reverse-mustache');

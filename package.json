@@ -1,8 +1,11 @@
 {
-  "name": "banking-swift-messages-nodejs",
+  "name": "banking-swift-messages",
   "version": "1.0.0",
   "description": "Nodejs library that parses fields from swift message in txt format after pdftotext on pdf format from Swift Alliance Lite 2",
   "main": "test.js",
+  "bin": {
+    "swift2json": "./bin/swift2json"
+  },
   "dependencies": {
     "json-stable-stringify": "^1.0.1",
     "reverse-mustache": "^1.6.2"

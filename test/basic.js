@@ -96,7 +96,7 @@ describe( "Library", function() {
 
 describe( "Console app", function() {
   it('parses to valid json', function() {
-    var cmd = "node "+path.join(__dirname,"..","bin","swift2json.js")+" "+path.join(__dirname,'example-1.txt');
+    var cmd = "node "+path.join(__dirname,"..","bin","swift2json")+" "+path.join(__dirname,'example-1.txt');
     var actual = execSync(cmd); // /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/15570035-20160307_082026.txt');
     actual = JSON.parse(actual);
 
