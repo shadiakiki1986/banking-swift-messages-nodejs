@@ -32,7 +32,24 @@ Notes on caching to mongo:
 * currently only the `banking-swift-messages` database name is allowed
 * in case of error in connection to the mongo hostname, `swift2json` exits with code `255`
 
-# Documentation
+# Dockerfile
+This dockerfile is just a worker that
+1. greps the FFA text-format swift messages in `/usr/share/swift/*.txt` for `FIN 103` (incoming transfers)
+2. parses those files with [bin/swift2json](https://github.com/shadiakiki1986/banking-swift-messages-nodejs)
+3. populates the json to the mongo database
+
+Usage
+1. Launch a mongo db instance: `docker run -it -p 27017:27017 mongo`
+2. Run the automated dockerfile published on [Docker hub]()
+ * it `docker run -v /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs:/usr/share/swift --env MONGOHOST=localhost -it shadiakiki1986/banking-swift-messages-nodejs`
+
+Alternatively, build the dockerfile locally
+1. Build this dockerfile `docker build -t s2m .`
+2. Run it `docker run -v /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs:/usr/share/swift --env MONGOHOST=localhost -it s2m`
+
+Change `localhost` to the hostname of the mongo db
+
+# Swift Messages Background Documentation
 '''Much of this documentation was reached through the documentation of [qoomon/banking-swift-messages-java](https://github.com/qoomon/banking-swift-messages-java), which is a parser for swift messages'''
 
 The difference between that and this is that:
