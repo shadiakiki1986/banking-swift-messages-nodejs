@@ -8,7 +8,7 @@ var inputFn = 'example-1.txt';
 var inputPath = path.join(__dirname,"fixtures",inputFn);
 var cmd = "node "+path.join(__dirname,"..","bin","swift2json");
 
-describe( "Command line tool", function() {
+describe( "CLI: -f option", function() {
   it('swift2json -f .. : generates JSON', function() {
     var actual = execSync(cmd+" -f "+inputPath); // /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/15570035-20160307_082026.txt');
     actual = JSON.parse(actual);
@@ -18,10 +18,13 @@ describe( "Command line tool", function() {
 
     expect(actual).to.deep.equal(expected);
   });
+});
 
+describe("CLI: -m option", function() {
   it('swift2json -f .. -m localhost : saves to mongo', function(done) {
-    function onerror(err) { done(err.stack); }
+    function onerror(err) { done(err); }
 
+    mongoHandler.hostname = "localhost";
     mongoHandler.rm(inputFn).then(function() {
       mongoHandler.get(inputFn).then(function(doc) {
         expect(doc.length).to.equal(0);
@@ -37,7 +40,7 @@ describe( "Command line tool", function() {
           done();
         }).catch(onerror);
       }).catch(onerror);
-    });
+    }).catch(onerror);
   });
 });
 
@@ -68,12 +71,13 @@ describe("-d option", function() {
   it('swift2json -d test/fixtures -m localhost: parses txt files and saves to mongo', function(done) {
     function onerror(err) { done(err); }
 
+    mongoHandler.hostname = "localhost";
     mongoHandler.rm(['example-1.txt','example-2.txt']).then(function(doc) {
       mongoHandler.ls().then(function(docs) {
         expect(docs.indexOf('example-1')).to.equal(-1);
         expect(docs.indexOf('example-2')).to.equal(-1);
  
-        var cmd2 = cmd + " -d  "+ path.join(__dirname,"fixtures") + " -m localhost";
+        var cmd2 = cmd + " -d  "+ path.join(__dirname,"fixtures") + " -m localhost 2>&1";
         var out = execSync(cmd2);
 
         // check all in mongo

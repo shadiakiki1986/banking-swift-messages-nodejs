@@ -18,11 +18,14 @@ if(
 }
 
 if(filename) {
-  app.process(filename,mongoHost);
+  app.setHost(mongoHost);
+  app.process(filename);
   return;
 }
 
 if(dirname) {
+  app.setHost(mongoHost);
+
   var grep = require('grep1'),
     glob = require('glob'),
     sync = require('sync');
@@ -57,7 +60,7 @@ if(dirname) {
       console.log(files1.length+" files = "+files3.length+" to parse + "+files2.length+" cached");
       // handle the remaining files
       files3.map(function(fn) {
-        app.process(fn,mongoHost);
+        app.process(fn);
       });
     });
   });

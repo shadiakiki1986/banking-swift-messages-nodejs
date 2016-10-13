@@ -22,4 +22,4 @@ fi
 #######################
 # run on a directory and skip in one step all files that are already in mongo
 #################
-swift2json -d /usr/share/swift -m "$MONGOHOST" -f
+swift2json -d /usr/share/swift -m "$MONGOHOST"
