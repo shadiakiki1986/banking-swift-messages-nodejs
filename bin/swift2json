@@ -65,7 +65,13 @@ function recursiveAppProcess(filenames) {
   // console.log("Processing "+fn);
   app.process(fn).then(
     function() {
-      recursiveAppProcess(filenames);
+      if(filenames.length==0) {
+        // end of queue
+        console.log("Flush countdown");
+        setTimeout(function() { console.log("Done"); }, 10000); // wait for 4 secs while mongo flushes
+      } else {
+        recursiveAppProcess(filenames);
+      }
     },
     function(err) {
       console.error("File error: ",err);
