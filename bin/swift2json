@@ -23,14 +23,12 @@ if(
 
 if(filename) {
   app.setHost(mongoHost);
-  try {
-    app.process(filename);
-  } catch(err) {
+  app.process(filename).catch(function(err) {
     console.error(err);
     // exit with 1, not 255, so that a non-MT103 file does not block
     // the xargs call in the dockerfile
     process.exit(1);
-  }
+  });
 
   return;
 }
