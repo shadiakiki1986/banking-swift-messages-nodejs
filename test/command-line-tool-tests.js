@@ -8,7 +8,7 @@ var inputFn = 'example-1.txt';
 var inputPath = path.join(__dirname,"fixtures",inputFn);
 var cmd = "node "+path.join(__dirname,"..","bin","swift2json")+" -f "+inputPath;
 
-describe( "Command line tool", function() {
+describe.only( "Command line tool", function() {
   it('parses to valid json', function() {
     var actual = execSync(cmd); // /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/15570035-20160307_082026.txt');
     actual = JSON.parse(actual);
