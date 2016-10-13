@@ -40,7 +40,7 @@ This dockerfile is just a worker that
 
 Usage
 1. Launch a mongo db instance: `docker run -it -p 27017:27017 mongo`
-2. Run the automated dockerfile published on [Docker hub]()
+2. Run the automated dockerfile published on [Docker hub](https://hub.docker.com/r/shadiakiki1986/banking-swift-messages-nodejs/)
  * it `docker run -v /mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs:/usr/share/swift --env MONGOHOST=localhost -it shadiakiki1986/banking-swift-messages-nodejs`
 
 Alternatively, build the dockerfile locally
