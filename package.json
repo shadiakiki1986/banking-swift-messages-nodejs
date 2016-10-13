@@ -12,6 +12,7 @@
     "glob": "^7.1.1",
     "grep1": "0.0.5",
     "json-stable-stringify": "^1.0.1",
+    "md5": "^2.2.1",
     "mongodb": "^2.2.10",
     "reverse-mustache": "^1.6.2",
     "sync": "^0.2.5"

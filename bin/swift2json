@@ -2,7 +2,11 @@
 var mongoHandler = require('../lib/mongo-handler.js'),
   app = require('../lib/console-application.js'),
   path = require('path'),
-  basename = require('basename');
+  basename = require('basename'),
+  execSync = require('child_process').execSync,
+  fs = require('fs'),
+  md5 = require('md5')
+;
 
 //-----------------
 var filename = app.getParam('-f');
@@ -19,15 +23,48 @@ if(
 
 if(filename) {
   app.setHost(mongoHost);
-  app.process(filename);
+  try {
+    app.process(filename);
+  } catch(err) {
+    console.error(err);
+    // exit with 1, not 255, so that a non-MT103 file does not block
+    // the xargs call in the dockerfile
+    process.exit(1);
+  }
+
   return;
 }
 
+// initialize grep cache
+var cacheGrepResult = "/tmp/banking-swift-grep-cache";
+try {
+  fs.accessSync(cacheGrepResult,fs.F_OK);
+} catch(err) {
+  fs.mkdirSync(cacheGrepResult);
+}
+
+function fnGrepCache(dirN) {
+  return path.join(cacheGrepResult,md5(dirN));
+}
+
+function readGrepCache(dirN) {
+  var cgrFn = fnGrepCache(dirN);
+  fs.accessSync(cgrFn,fs.F_OK);
+
+  return fs
+    .readFileSync(
+      cgrFn,
+      'utf8'
+    ).split('\n')
+    .filter(function(fn) { return !!fn; })
+  ;
+}
+
+// handle command
 if(dirname) {
   app.setHost(mongoHost);
 
-  var grep = require('grep1'),
-    glob = require('glob'),
+  var glob = require('glob'),
     sync = require('sync');
 
   function mygrep(input,cb) {
@@ -36,32 +73,59 @@ if(dirname) {
       });
   }
 
-  sync(function() {
-    // filter for files with "FIN 103" in them
-    var realdir = path.join(dirname,'*.txt');
-    var files1 = glob.sync(realdir).filter( function(fn) {
-      var out = mygrep.sync(null,['FIN 103',fn]);
-      return out;
+  // filter for files with "FIN 103" in them
+  var realdir = path.join(dirname,'*.txt');
+  // realdir = '/mnt/hqfile_data/Shadi/swift-datedPdfs/IncomingMsgs/*201606*txt';
+  var files1;
+  try {
+    files1 = readGrepCache(dirname);
+    console.log("Found grep results in cache");
+  } catch(err) {
+    console.error("Grep results not found in cache. Starting grep. (Error: "+err+")");
+    console.log("Will grep "+execSync("ls -1 "+realdir+"|wc -l", {encoding:'utf8'}).trim()+" files");
+
+    execSync('grep -l "FIN 103" '+realdir+' > '+fnGrepCache(dirname), {encoding:'utf8'});
+    files1 = readGrepCache(dirname);
+    console.log("Found "+files1.length+" grep matches and cached");
+
+    /*
+    sync(function() {
+      var grep = require('grep1');
+      var index = 0;
+      var files1 = glob.sync(realdir).filter( function(fn) {
+        index++;
+        if(!(index % 1000)) console.log("Checked "+index+" files");
+        var out = mygrep.sync(null,['FIN 103',fn]);
+        return out;
+      });
+      // ... rest of code goes here
+    });
+    */
+  }
+
+  // get list of cached files
+  mongoHandler.ls().then(function(cached) {
+
+    // remove from this list the ones that are in the mongo db already
+    var files2 = files1.filter(function(fn) {
+      return cached.indexOf(basename(fn)) !== -1;
     });
 
-    // get list of cached files
-    mongoHandler.ls().then(function(cached) {
+    var files3 = files1.filter(function(fn) {
+      return cached.indexOf(basename(fn)) === -1;
+    });
 
-      // remove from this list the ones that are in the mongo db already
-      var files2 = files1.filter(function(fn) {
-        return cached.indexOf(basename(fn)) !== -1;
-      });
-
-      var files3 = files1.filter(function(fn) {
-        return cached.indexOf(basename(fn)) === -1;
-      });
-
-      console.log("Status of files in "+realdir);
-      console.log(files1.length+" files = "+files3.length+" to parse + "+files2.length+" cached");
-      // handle the remaining files
-      files3.map(function(fn) {
-        app.process(fn);
-      });
+    console.log("Status of files in "+realdir);
+    console.log(files1.length+" files = "+files3.length+" to parse + "+files2.length+" cached");
+    // handle the remaining files
+    files3.map(function(fn) {
+      app.process(fn).then(
+        null,
+        function(err) {
+          console.error("File error: ",err);
+        }
+      );
     });
   });
+
 }
