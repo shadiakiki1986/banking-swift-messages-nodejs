@@ -10,6 +10,7 @@ var fixturesParse = {
   'example-3.txt': "example-3.json",
   'example-4.txt': "example-4.json",
   'example-5.txt': "example-5.json",
+  'example-6.txt': "example-6.json",
 };
 
 var fixturesPreprocess = {
@@ -18,6 +19,7 @@ var fixturesPreprocess = {
   'example-3.txt': "preprocessed-3.txt",
   'example-4.txt': "preprocessed-4.txt",
   'example-5.txt': "preprocessed-5.txt",
+  'example-6.txt': ["preprocessed-6-part1.txt","preprocessed-6-part2.txt"],
 };
 
 describe("preprocess", function() {
@@ -25,7 +27,7 @@ describe("preprocess", function() {
     it('adds to 32A', function() {
       var input =    "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n55: bla\nl9";
       var expected = "header\n32A: l1\nl2\nl3\nl4\nl5\nl6\nl7\n>>>>>> 32A\n55: bla\nl9";
-      var actual = bsm.preprocess(input);
+      var actual = bsm.preprocessTag(input);
       expect(actual).to.equal(expected);
     });
   });
@@ -35,10 +37,20 @@ describe("preprocess", function() {
       for(var inputFn in fixturesPreprocess) {
         var input = bsm.readFile(path.join(__dirname,"fixtures",inputFn));
         var actual = bsm.preprocess(input);
+        var expectedFn, expected;
 
-        var expectedFn = path.join(__dirname,"fixtures",fixturesPreprocess[inputFn]);
-        var expected = bsm.readFile(expectedFn);
-        expect(actual).to.equal(expected,inputFn);
+        if(inputFn === 'example-6.txt') {
+          expect(actual.length).to.equal(2);
+          for(var i in actual) {
+            expectedFn = path.join(__dirname,"fixtures",fixturesPreprocess[inputFn][i]);
+            expected = bsm.readFile(expectedFn);
+            expect(actual[i]).to.equal(expected,inputFn+" / part "+i);
+          }
+        } else {
+          expectedFn = path.join(__dirname,"fixtures",fixturesPreprocess[inputFn]);
+          expected = bsm.readFile(expectedFn);
+          expect(actual[0]).to.equal(expected,inputFn);
+        }
       }
     });
   });
@@ -57,10 +69,16 @@ describe( "Library", function() {
           var inputFn = fixturesParse[expectedFn];
           inputFn = path.join(__dirname,"fixtures",inputFn);
           var input = JSON.parse(bsm.readFile(inputFn));
-          var actual = mustache.render(template,input).trim();
+          var collected = "";
+          var actual;
+          for(var index in input) {
+            actual = mustache.render(template,input[index]).trim();
 
-          // drop >>>>>> and <<<<<< which I added
-          actual = actual.replace(/>>>>>> \d{2}[A-Z]{0,1}\n/g,'');
+            // drop >>>>>> and <<<<<< which I added
+            actual = actual.replace(/>>>>>> \d{2}[A-Z]{0,1}\n/g,'');
+
+            collected += "\n\n"+actual;
+          }
 
           // get expected file
           var expected = bsm.readFile(path.join(__dirname,"fixtures",expectedFn)).trim();
@@ -71,7 +89,7 @@ describe( "Library", function() {
           //fs.writeFileSync(temp1,actual);
           //fs.writeFileSync(temp2,expected);
 
-          expect(actual).to.equal(expected, expectedFn +"; "+ inputFn); // + "; vimdiff "+temp1+" "+temp2);
+          expect(collected.trim()).to.equal(expected, expectedFn +"; "+ inputFn); // + "; vimdiff "+temp1+" "+temp2);
         }
     });
   });
@@ -83,7 +101,7 @@ describe( "Library", function() {
 
         var expectedFn = fixturesParse[actualFn];
         var expected = path.join(__dirname,"fixtures",expectedFn);
-        // fs.writeFileSync(expected,JSON.stringify(actual,null,4));
+        // if(actualFn =='example-6.txt') fs.writeFileSync(expected,JSON.stringify(actual,null,4));
         expected = JSON.parse(bsm.readFile(expected));
 
         expect(actual).to.deep.equal(expected,actualFn);

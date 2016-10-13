@@ -36,7 +36,7 @@ describe("CLI: -m option", function() {
           doc = doc[0];
 
           var expected = bsm.parse(inputPath);
-          expect(doc.json).to.deep.equal(expected);
+          expect(doc.json).to.deep.equal(expected[0]);
           done();
         }).catch(onerror);
       }).catch(onerror);

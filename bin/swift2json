@@ -35,6 +35,7 @@ if(filename) {
   return;
 }
 
+/////////////////////////////////////
 // initialize grep cache
 var cacheGrepResult = "/tmp/banking-swift-grep-cache";
 try {
@@ -59,7 +60,22 @@ function readGrepCache(dirN) {
     .filter(function(fn) { return !!fn; })
   ;
 }
-
+/////////////////////
+// recursive app.process
+function recursiveAppProcess(filenames) {
+  var fn = filenames.shift();
+  console.log("Processing "+fn);
+  app.process(fn).then(
+    function() {
+      recursiveAppProcess(filenames);
+    },
+    function(err) {
+      console.error("File error: ",err);
+    }
+  );
+}
+ 
+/////////////////////////////////////
 // handle command
 if(dirname) {
   app.setHost(mongoHost);
@@ -104,27 +120,27 @@ if(dirname) {
   }
 
   // get list of cached files
-  mongoHandler.ls().then(function(cached) {
+  mongoHandler.ls(false).then(function(noErr) {
+    mongoHandler.ls(true).then(function(withErr) {
+      // remove from this list the ones that are in the mongo db already
+      var filesCachedNoErr = files1.filter(function(fn) {
+        return noErr.indexOf(basename(fn)) !== -1;
+      });
 
-    // remove from this list the ones that are in the mongo db already
-    var files2 = files1.filter(function(fn) {
-      return cached.indexOf(basename(fn)) !== -1;
-    });
+      var filesCachedWithErr = files1.filter(function(fn) {
+        return withErr.indexOf(basename(fn)) !== -1;
+      });
 
-    var files3 = files1.filter(function(fn) {
-      return cached.indexOf(basename(fn)) === -1;
-    });
+      var filesToParse = files1.filter(function(fn) {
+        return noErr.indexOf(basename(fn)) === -1
+          && withErr.indexOf(basename(fn)) === -1
+        ;
+      });
 
-    console.log("Status of files in "+realdir);
-    console.log(files1.length+" files = "+files3.length+" to parse + "+files2.length+" cached");
-    // handle the remaining files
-    files3.map(function(fn) {
-      app.process(fn).then(
-        null,
-        function(err) {
-          console.error("File error: ",err);
-        }
-      );
+      console.log("Status of files in "+realdir);
+      console.log(files1.length+" files = "+filesToParse.length+" to parse + "+filesCachedNoErr.length+" cached + "+filesCachedWithErr.length+" errored");
+      // handle the remaining files
+      recursiveAppProcess(filesToParse);
     });
   });
 

@@ -66,12 +66,14 @@ describe( "Proprietary files", function() {
 
     var expected = path.join(__dirname,"fixtures","example-1.json");
     expected = JSON.parse(bsm.readFile(expected));
-    var expectedKeys = Object.keys(expected);
+    var expectedKeys = Object.keys(expected[0]);
 
     fixturesProprietary.map(function(filename) {
         var actual = bsm.parse(path.join(folder,filename));
-        // http://chaijs.com/api/bdd/#method_keys
-        expect(actual).to.have.all.keys(expectedKeys);
+        actual.map(function(single) {
+          // http://chaijs.com/api/bdd/#method_keys
+          expect(single).to.have.all.keys(expectedKeys);
+        });
     });
   });
 });

@@ -1,3 +1,4 @@
+[
 {
     "meta": {
         "timestamp": "07/03/16−06:16:12",
@@ -44,3 +45,4 @@
         "trailer": "{CHK:7777777777}\n{DLM:}\nPKI Signature: MAC−Equivalent"
     }
 }
+]
