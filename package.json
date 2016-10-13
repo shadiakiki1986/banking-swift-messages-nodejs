@@ -9,9 +9,12 @@
   "dependencies": {
     "basename": "^0.1.2",
     "co": "^4.6.0",
+    "glob": "^7.1.1",
+    "grep1": "0.0.5",
     "json-stable-stringify": "^1.0.1",
     "mongodb": "^2.2.10",
-    "reverse-mustache": "^1.6.2"
+    "reverse-mustache": "^1.6.2",
+    "sync": "^0.2.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",

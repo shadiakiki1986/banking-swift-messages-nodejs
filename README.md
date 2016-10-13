@@ -32,6 +32,11 @@ Notes on caching to mongo:
 * currently only the `banking-swift-messages` database name is allowed
 * in case of error in connection to the mongo hostname, `swift2json` exits with code `255`
 
+Can also run with `-d` to
+1. grep a directory txt files for `FIN 103` and
+2. filter the files for the ones that are not in the mongo database
+3. run the parser on the remaining files
+
 # Dockerfile
 This dockerfile is just a worker that
 1. greps the FFA text-format swift messages in `/usr/share/swift/*.txt` for `FIN 103` (incoming transfers)
