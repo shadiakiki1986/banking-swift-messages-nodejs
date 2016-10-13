@@ -53,7 +53,6 @@ describe( "Mongo handler", function() {
     }).catch(errcb);
   });
 
-
   it('rm can handle array', function(done) {
     function errcb(err) { done(err); }
     var inputFn = ["testRm-1","testRm-2"];
@@ -62,8 +61,8 @@ describe( "Mongo handler", function() {
       mongoHandler.upsert(inputFn[0],[]).then(function() {
         mongoHandler.upsert(inputFn[1],[]).then(function() {
             mongoHandler.ls().then(function(docs1) {
-              expect(docs1.indexOf(inputFn[0])).to.equal(1);
-              expect(docs1.indexOf(inputFn[1])).to.equal(2);
+              expect(docs1.indexOf(inputFn[0])).to.not.equal(-1);
+              expect(docs1.indexOf(inputFn[1])).to.not.equal(-1);
               mongoHandler.rm(inputFn).then(function() {
                 mongoHandler.ls().then(function(docs2) {
                   expect(docs2.indexOf(inputFn[0])).to.equal(-1);
