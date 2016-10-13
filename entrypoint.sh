@@ -11,4 +11,4 @@ fi
 # http://stackoverflow.com/a/26485626/4126114
 # Note that swift2json already exits with code 255
 cd /usr/share/swift
-grep -l "FIN 103" *|xargs -n 1 swift2json -m "$MONGOHOST" -f
+grep -l "FIN 103" *txt|xargs -n 1 swift2json -m "$MONGOHOST" -f
