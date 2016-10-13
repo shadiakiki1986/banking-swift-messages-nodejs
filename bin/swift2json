@@ -62,7 +62,7 @@ function readGrepCache(dirN) {
 // recursive app.process
 function recursiveAppProcess(filenames) {
   var fn = filenames.shift();
-  console.log("Processing "+fn);
+  // console.log("Processing "+fn);
   app.process(fn).then(
     function() {
       recursiveAppProcess(filenames);

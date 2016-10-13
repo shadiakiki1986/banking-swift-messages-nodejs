@@ -50,15 +50,15 @@ describe("CLI: -m option", function() {
     var multiPath = path.join(__dirname,"fixtures",multiFn+".txt");
 
     mongoHandler.hostname = "localhost";
-    mongoHandler.rm(multiFn+"/0").then(function() {
-    mongoHandler.rm(multiFn+"/1").then(function() {
+    mongoHandler.rm(multiFn+"_0").then(function() {
+    mongoHandler.rm(multiFn+"_1").then(function() {
 
-      mongoHandler.get(multiFn+"/0").then(function(doc) {
+      mongoHandler.get(multiFn+"_0").then(function(doc) {
         expect(doc.length).to.equal(0);
         var cmd2 = cmd+" -f "+multiPath+" -m localhost";
         execSync(cmd2);
 
-        mongoHandler.get(multiFn+"/0").then(function(doc) {
+        mongoHandler.get(multiFn+"_0").then(function(doc) {
           expect(doc.length).to.equal(1);
           doc = doc[0];
 
